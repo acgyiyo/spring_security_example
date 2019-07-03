@@ -3,26 +3,45 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
+	<!-- <context-param> -->
+	<!-- <param-name>contextConfigLocation</param-name> -->
+	<!-- <param-value>classpath:/jpaContext.xml</param-value> -->
+	<!-- </context-param> -->
+
+<!-- archivo que va a tener las configuraciones de seguridad y será escuchado por el listener de mas abajito -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:/jpaContext.xml</param-value>
+		<param-value>/WEB-INF/config/security-config.xml</param-value>
 	</context-param>
+
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-<!--#acg este filtro hace que la sessión de spring(no la session web) pueda empezar desde la capa el controller y desde el repo hace que se puedan usar el fetchType LAZY  -->
+	<!--#acg este filtro hace que la sessión de spring(no la session web) pueda 
+		empezar desde la capa el controller y desde el repo hace que se puedan usar 
+		el fetchType LAZY -->
+	<!-- <filter> -->
+	<!-- <filter-name>SpringOpenEntityManagerInViewFilter</filter-name> -->
+	<!-- <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class> -->
+	<!-- </filter> -->
+
+	<!-- filtro para que todo pase por el delegado de spring -->
 	<filter>
-		<filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
-		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
-	
+
+	<!-- <filter-mapping> -->
+	<!-- <filter-name>SpringSecurityFilterChain</filter-name> -->
+	<!-- <url-pattern>/*</url-pattern> -->
+	<!-- </filter-mapping> -->
 	<filter-mapping>
-		<filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
+		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<servlet>
 		<servlet-name>fitTrackerServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
