@@ -12,10 +12,17 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<!-- se coloca un interceptor de url y el ptaron usado es ()"And pattern"-> 
-		/** ) el cual indica que rutas seran interceptadas -->
+
 	<http auto-config="true">
-		<intercept-url pattern="/**" access="ROLE_USER " />
+<!-- se coloca un interceptor de url y el ptaron usado es ()"And pattern"->/** ) el cual indica que rutas seran interceptadas -->
+		<intercept-url pattern="/**" access="ROLE_USER" />
+	
+<!--este interceptor nos permite decir que cualquiera puede entrar a nuestro login-->
+		<intercept-url pattern="/login.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		
+<!-- con esta linea estamos diciendo que vamos a tener un formulario para el login de lo contrario spring nos proveería uno basico -->
+		<form-login login-page="/login.html"/>
+		 
 	</http>
 
 	<!-- con esto ya tenemos configurada toda la app (incluido un login) para que sea segura, en 
@@ -31,7 +38,11 @@
 
 <!-- aqui con DB-->
 	<authentication-manager>
-		<authentication-provider user-service-ref="userDetailsService" />
+		<authentication-provider>
+<!-- 		con esta linea bnasta para decir que la contraseña va a pasar una encriptación ya sea hash md5, o en este caso bCrypt-->
+		<password-encoder hash="bcrypt"/>
+			<jdbc-user-service data-source-ref="dataSource"/>
+		</authentication-provider>
 	</authentication-manager>
 	
 	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -41,8 +52,9 @@
 		<beans:property name="password" value="aeado250"/>
 	</beans:bean>
 	
-	<beans:bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
-		<beans:property name="dataSource" ref="dataSource"></beans:property>
-	</beans:bean>
+	
+<!-- 	<beans:bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl"> -->
+<!-- 		<beans:property name="dataSource" ref="dataSource"></beans:property> -->
+<!-- 	</beans:bean> -->
 	
 </beans:beans>
