@@ -12,17 +12,35 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-<!-- toda esta configuración es la manera statica de hacerla, abajo está la manera dinamica o con expressiones  -->
-	<http auto-config="true">	
-<!--este interceptor nos permite decir que cualquiera puede entrar a nuestro login y a la pagin de error de l login-->
-		<intercept-url pattern="/login.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-		<intercept-url pattern="/loginFailed.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+<!--toda esta configuración es la manera statica de hacerla, abajo está la manera dinamica o con expressiones  -->
+<!-- 	<http auto-config="true">	 -->
+<!--este interceptor nos permite decir que cualquiera puede entrar a nuestro login y a la pagin de error de l login--> 
+<!-- 		<intercept-url pattern="/login.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/> -->
+<!-- 		<intercept-url pattern="/loginFailed.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/> -->
+<!--mapeamos el logout a un request --> 
+<!-- 		<intercept-url pattern="/logout.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/> -->
+<!--url que intercepta el acceso denegado --> 
+<!-- 		<intercept-url pattern="403.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/> -->
+<!-- se coloca un interceptor de url y el ptaron usado es ()"And pattern"->/** ) el cual indica que rutas seran interceptadas --> 
+<!-- 		<intercept-url pattern="/**" access="ROLE_USER" /> -->
+<!--con esta linea estamos diciendo que vamos a tener un formulario para el login de lo contrario spring nos proveería uno basico, ademas de una dirección en caso de fallo en el login --> 
+<!-- 		<form-login login-page="/login.html" authentication-failure-url="/loginFailed.html"/> -->
+<!-- con esto indicamos que tenemos un logout --> 
+<!-- 		 <logout logout-success-url="/logout.html"/> -->
+<!-- 		 <access-denied-handler error-page="/403.html"/> -->
+<!-- 	</http> -->
+	
+<!-- 	colocamos el attributo de uso de expresiones -->
+		<http auto-config="true" use-expressions="true">	
+<!--este interceptor nos permite decir que cualquiera puede entrar a nuestro login y a la pagin de error del login-->
+		<intercept-url pattern="/login.html" access="permitAll"/>
+		<intercept-url pattern="/loginFailed.html" access="permitAll"/>
 <!-- mapeamos el logout a un request -->
-		<intercept-url pattern="/logout.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/logout.html" access="permitAll"/>
 <!--url que intercepta el acceso denegado -->
-		<intercept-url pattern="403.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-<!-- se coloca un interceptor de url y el ptaron usado es ()"And pattern"->/** ) el cual indica que rutas seran interceptadas -->
-		<intercept-url pattern="/**" access="ROLE_USER" />
+		<intercept-url pattern="403.html" access="permitAll"/>
+<!-- se coloca un interceptor de url y el ptaron usado es ()"And pattern"->/** ) el cual indica que rutas seran interceptada, adicional usamos la expresión hasRole que nos permite ser mas dinamicos-->
+		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
 <!-- con esta linea estamos diciendo que vamos a tener un formulario para el login de lo contrario spring nos proveería uno basico, ademas de una dirección en caso de fallo en el login -->
 		<form-login login-page="/login.html" authentication-failure-url="/loginFailed.html"/>
 <!-- 		con esto indicamos que tenemos un logout -->

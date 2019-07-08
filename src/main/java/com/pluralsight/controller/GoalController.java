@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,6 +39,8 @@ public class GoalController {
 		return "addGoal";
 	}
 
+//	con esto estamos diciendo que cualquiera con el rol de admin y que tenga permiso de crear goal puede hacer post de addGoal el '#' indica que es un objeto
+	@PreAuthorize("hasRole('ROLE_ADMIN') and hasPermission(#goal, 'createGoal')")
 	@RequestMapping(value = "addGoal", method = RequestMethod.POST)
 	public String updateGoal(@Valid @ModelAttribute("goal") Goal goal, BindingResult result) {
 
@@ -63,6 +66,8 @@ public class GoalController {
 		return "getGoals";
 	}
 
+//	con esto estamos diciendo que cualquiera con el rol de admin puede ver un goal report
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "goalReport", method = RequestMethod.GET)
 	public String getGoalReports(Model model) {
 		List<GoalReport> goalReports = goalService.findGoalReports();
