@@ -22,7 +22,7 @@ import com.pluralsight.service.GoalService;
 @SessionAttributes("goal")
 public class GoalController {
 
-	@Autowired
+//	@Autowired
 	private GoalService goalService;
 
 	@RequestMapping(value = "addGoal", method = RequestMethod.GET)

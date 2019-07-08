@@ -21,7 +21,7 @@ import com.pluralsight.service.ExerciseService;
 @Controller
 public class MinutesController {
 
-	@Autowired
+//	@Autowired
 	private ExerciseService exerciseService;
 
 	@RequestMapping(value = "/addMinutes", method = RequestMethod.GET)

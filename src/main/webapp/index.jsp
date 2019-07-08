@@ -64,6 +64,9 @@ body {
 
 			<a class="btn btn-primary" href="addMinutes.html"> Add Exercise
 				Minutes » </a>
+				
+<!-- 	llamando a "j_spring_security_logout URL" spring invalida session, borra cookies y cualquier ora cosa interna que requiera un logout  -->
+				<a class="btn btn-warning" href="j_spring_security_logout">Logout >></a>
 		</div>
 		<div></div>
 	</div>
