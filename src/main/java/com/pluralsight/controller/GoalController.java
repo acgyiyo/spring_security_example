@@ -26,6 +26,8 @@ public class GoalController {
 //	@Autowired
 	private GoalService goalService;
 
+//	con esto estamos diciendo que cualquiera con el rol de admin puede ver un goal report
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "addGoal", method = RequestMethod.GET)
 	public String addGoal(Model model, HttpSession session) {
 		Goal goal = (Goal) session.getAttribute("goal");
@@ -51,7 +53,7 @@ public class GoalController {
 		if (result.hasErrors()) {
 			return "addGoal";
 		} else {
-			goalService.save(goal);
+//			goalService.save(goal);
 		}
 
 		return "redirect:index.jsp";
@@ -66,8 +68,7 @@ public class GoalController {
 		return "getGoals";
 	}
 
-//	con esto estamos diciendo que cualquiera con el rol de admin puede ver un goal report
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+
 	@RequestMapping(value = "goalReport", method = RequestMethod.GET)
 	public String getGoalReports(Model model) {
 		List<GoalReport> goalReports = goalService.findGoalReports();

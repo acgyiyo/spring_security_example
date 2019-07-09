@@ -18,7 +18,19 @@
 	<context:component-scan base-package="com.pluralsight.controller"/>
 	
 <!-- 	esta anotacion agrega seguridad a todos los controllers escaneados en el sistema por eso se pone abajo de 'component-scan', el 'pre-post annotation agrega anotaciones para hacer validades antes o despues en nuestros controllers' -->
-	<security:global-method-security pre-post-annotations="disabled"/>
+	<security:global-method-security pre-post-annotations="enabled">
+		<security:expression-handler ref="fitnessExpressionHandler"/>
+	</security:global-method-security>
+	
+<!-- 	aca agregamos la configuración necesaria para que el validador de seguridad tenga datasource  -->
+	<bean id="fitnessExpressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+		<property name="permissionEvaluator">
+			<bean id="permissionEvaluator" class="com.pluralsight.security.FitnessPermissionEvaluator">
+				<property name="datasource" ref="dataSource"></property>
+			</bean>
+		</property>
+	</bean>
+	
 	
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		<property name="order" value="1" />
